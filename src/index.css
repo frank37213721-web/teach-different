@@ -1,0 +1,51 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg: #FAFAF7;
+  --ink: #18181B;
+}
+html, body {
+  background: var(--bg);
+  font-family: 'Noto Sans TC', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif;
+  color: var(--ink);
+  font-feature-settings: "kern", "ss01";
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+.font-mono, code {
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+}
+
+/* subtle paper grain */
+body::before {
+  content: "";
+  position: fixed; inset: 0; pointer-events: none; z-index: 1;
+  background-image: radial-gradient(circle at 1px 1px, rgba(24,24,27,0.018) 1px, transparent 0);
+  background-size: 4px 4px;
+}
+
+/* card flip plumbing */
+.card-perspective { perspective: 1600px; }
+
+/* candle flame breathing */
+@keyframes flame {
+  0%, 100% { transform: scale(1) rotate(0deg); opacity: 1; filter: drop-shadow(0 0 2px rgba(245,180,80,0.35)); }
+  50% { transform: scale(1.06) rotate(-1deg); opacity: 0.92; filter: drop-shadow(0 0 6px rgba(245,180,80,0.55)); }
+}
+.candle-btn:hover .candle-flame { animation: flame 1.6s ease-in-out infinite; }
+
+::selection { background: rgba(232,155,60,0.30); }
+
+/* nicer scrollbar in textarea */
+textarea::-webkit-scrollbar { width: 6px; }
+textarea::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.08); border-radius: 3px; }
+
+/* clamp util */
+.line-clamp-4 {
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
