@@ -99,6 +99,58 @@ const IDEAS = [
     practices: 102,
     daysAgo: 14,
   },
+  {
+    id: "i07",
+    subject: "物理",
+    grade: "高中二年級",
+    title: "用果凍捏出 PN 接面",
+    excerpt:
+      "兩色果凍分別代表 N 型與 P 型半導體，學生用手指把「多數載子」往中間推，直到推不動的那條線，就是空乏區。比投影片直觀十倍。",
+    author: { name: "吳承翰", school: "建國高中", color: "linear-gradient(135deg,#0077B6,#023E8A)" },
+    forkedFrom: null,
+    lights: 74,
+    practices: 21,
+    daysAgo: 2,
+  },
+  {
+    id: "i08",
+    subject: "物理",
+    grade: "高中一年級",
+    title: "LED 光譜反推禁帶寬度",
+    excerpt:
+      "每組拿一片光柵片對著不同顏色 LED 觀察光譜，記錄峰值波長，換算光子能量。最後比對理論禁帶寬度，誤差在 5% 內的組別有小獎勵。",
+    author: { name: "陳柏宇", school: "師大附中", color: "linear-gradient(135deg,#F77F00,#D62828)" },
+    forkedFrom: { name: "吳承翰", commit: "e81d3f" },
+    lights: 112,
+    practices: 33,
+    daysAgo: 6,
+  },
+  {
+    id: "i09",
+    subject: "化學",
+    grade: "高中一年級",
+    title: "從沙子到晶片：矽的鍵結旅行",
+    excerpt:
+      "帶一包海沙進教室。從 SiO₂ 的共價鍵出發，一步步走到純矽、摻雜、再到 N 型與 P 型。最後讓學生計算：這包沙能做幾顆晶片？",
+    author: { name: "林雅涵", school: "北一女中", color: "linear-gradient(135deg,#40916C,#1B4332)" },
+    forkedFrom: null,
+    lights: 89,
+    practices: 28,
+    daysAgo: 9,
+  },
+  {
+    id: "i10",
+    subject: "自然科學",
+    grade: "高中三年級",
+    title: "製程節點縮放：人體比例尺",
+    excerpt:
+      "把一根頭髮（約 70µm）投影在黑板上，讓學生用尺算出 7nm 節點在上面有多細。再算一顆 M1 晶片裡 160 億顆電晶體排成一排有多長。數字讓人起雞皮疙瘩。",
+    author: { name: "張智翔", school: "中山女高", color: "linear-gradient(135deg,#7B2D8B,#4A0E6E)" },
+    forkedFrom: { name: "林雅涵", commit: "b52a9c" },
+    lights: 156,
+    practices: 47,
+    daysAgo: 4,
+  },
 ];
 
 const HELP_CHIPS = [
