@@ -1,6 +1,8 @@
 import { useState } from "react";
 import ForkTreeView from "./ForkTree.jsx";
 import ImpactDashboard from "./Dashboard.jsx";
+import ComposeView from "./Compose.jsx";
+import DiscoverHub from "./Discover.jsx";
 import {
   FlameIcon,
   ForkIcon,
@@ -165,7 +167,7 @@ const HELP_CHIPS = [
 /* ──────────────────────────────────────────────────────────────
    Top nav
    ────────────────────────────────────────────────────────────── */
-function TopNav({ view, setView }) {
+function TopNav({ view, setView, onCompose }) {
   return (
     <header className="sticky top-0 z-30 backdrop-blur-xl bg-[rgba(250,250,247,0.72)] border-b border-[#ECECE6]">
       <div className="max-w-[1280px] mx-auto px-8 h-[60px] flex items-center justify-between">
@@ -185,9 +187,8 @@ function TopNav({ view, setView }) {
           <nav className="flex items-center gap-1 text-[13px]">
             {[
               ["wall", "點子牆"],
-              ["forks", "教案時光機"],
               ["impact", "我的影響力"],
-              ["explore", "探索"],
+              ["discover", "探索"],
             ].map(([k, label]) => (
               <button
                 key={k}
@@ -217,7 +218,10 @@ function TopNav({ view, setView }) {
             <BellIcon size={15} />
             <span className="absolute top-1.5 right-1.5 w-1.5 h-1.5 rounded-full bg-[#E76F51]"></span>
           </button>
-          <button className="h-8 px-3 rounded-md bg-[#18181B] text-white text-[12.5px] font-medium hover:bg-[#2A2A2E] transition-colors flex items-center gap-1.5">
+          <button
+            onClick={onCompose}
+            className="h-8 px-3 rounded-md bg-[#18181B] text-white text-[12.5px] font-medium hover:bg-[#2A2A2E] transition-colors flex items-center gap-1.5"
+          >
             <PlusIcon size={13} strokeWidth={2}/>
             分享點子
           </button>
@@ -330,7 +334,10 @@ function IdeaCard({ idea, flipped, onFlip, onClose, justLit, onOpenTree }) {
             </div>
 
             {/* title */}
-            <h3 className="mt-5 text-[20px] leading-[1.3] font-medium text-[#18181B] tracking-tight">
+            <h3
+              onClick={(e) => { e.stopPropagation(); onOpenTree && onOpenTree(); }}
+              className="mt-5 text-[20px] leading-[1.3] font-medium text-[#18181B] tracking-tight cursor-pointer hover:underline underline-offset-2 decoration-[#D9D9D2]"
+            >
               {idea.title}
             </h3>
 
@@ -536,7 +543,7 @@ function WallView({ onOpenTree }) {
               justLit={litIds.has(idea.id)}
               onFlip={() => setFlippedId(idea.id)}
               onClose={() => close(idea.id)}
-              onOpenTree={onOpenTree}
+              onOpenTree={() => onOpenTree(idea.id)}
             />
           ))}
         </div>
@@ -552,28 +559,19 @@ function WallView({ onOpenTree }) {
 
 function App() {
   const [view, setView] = useState("wall");
+  const [detailIdeaId, setDetailIdeaId] = useState(null);
+
+  const openDetail = (id) => { setDetailIdeaId(id); setView("detail"); };
+  const closeDetail = () => { setDetailIdeaId(null); setView("wall"); };
 
   return (
     <div className="min-h-screen text-[#18181B]">
-      <TopNav view={view} setView={setView} />
-      {view === "wall" && <WallView onOpenTree={() => setView("forks")} />}
-      {view === "forks" && <ForkTreeView />}
+      <TopNav view={view} setView={setView} onCompose={() => setView("compose")} />
+      {view === "wall" && <WallView onOpenTree={openDetail} />}
+      {view === "detail" && <ForkTreeView ideaId={detailIdeaId} onBack={closeDetail} />}
+      {view === "compose" && <ComposeView onCancel={() => setView("wall")} onPublished={() => setView("wall")} />}
       {view === "impact" && <ImpactDashboard />}
-      {view === "explore" && <ComingSoon label="探索"/>}
-    </div>
-  );
-}
-
-function ComingSoon({ label }) {
-  return (
-    <div className="max-w-[1280px] mx-auto px-8 py-32 text-center">
-      <div className="inline-flex flex-col items-center gap-3">
-        <div className="w-12 h-12 rounded-full bg-[#F2F2EC] flex items-center justify-center">
-          <SparkleIcon size={18} className="text-[#9C9C95]"/>
-        </div>
-        <div className="text-[15px] font-medium tracking-tight">「{label}」正在規劃中</div>
-        <div className="text-[12.5px] text-[#9C9C95]">這個分頁是這次原型的下一步。</div>
-      </div>
+      {view === "discover" && <DiscoverHub />}
     </div>
   );
 }

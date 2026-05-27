@@ -1,8 +1,8 @@
 /* ──────────────────────────────────────────────────────────────
    ForkTreeView — 教案時光機分支圖
    ────────────────────────────────────────────────────────────── */
-import { useState as useStateFT, useMemo as useMemoFT } from "react";
-import { ForkIcon, FlameIcon, SparkleIcon } from "./icons.jsx";
+import { useState as useStateFT } from "react";
+import { ArrowLeftIcon, ForkIcon, FlameIcon, SparkleIcon } from "./icons.jsx";
 
 const FORK_DATA = {
   title: "用便利貼演化一篇作文",
@@ -14,7 +14,6 @@ const FORK_DATA = {
   totalPractitioners: 142,
 };
 
-// commits — newest first
 const COMMITS = [
   {
     id: "c6", commit: "b53fa1", date: "2024-11-02",
@@ -78,7 +77,7 @@ const ROW_H = 132;
 const NODE_R = 7;
 const LANE_COLORS = ["#18181B", "#E89B3C", "#2A9D8F"];
 
-function ForkTreeView() {
+function ForkTreeView({ ideaId, onBack }) {
   const [selected, setSelected] = useStateFT("c2");
 
   const totalH = COMMITS.length * ROW_H;
@@ -87,12 +86,23 @@ function ForkTreeView() {
   return (
     <div className="max-w-[1280px] mx-auto px-8 pt-10 pb-32">
       {/* breadcrumb */}
-      <div className="flex items-center gap-1.5 text-[12px] text-[#9C9C95] font-mono mb-7">
-        <a className="hover:text-[#18181B] cursor-pointer">點子牆</a>
-        <span>/</span>
-        <a className="hover:text-[#18181B] cursor-pointer">{FORK_DATA.subject}</a>
-        <span>/</span>
-        <span className="text-[#18181B]">{FORK_DATA.title}</span>
+      <div className="flex items-center justify-between mb-7">
+        <div className="flex items-center gap-1.5 text-[12px] text-[#9C9C95] font-mono">
+          <button onClick={onBack} className="hover:text-[#18181B] flex items-center gap-1.5 cursor-pointer">
+            <ArrowLeftIcon size={12}/>
+            點子牆
+          </button>
+          <span>/</span>
+          <a className="hover:text-[#18181B] cursor-pointer">{FORK_DATA.subject}</a>
+          <span>/</span>
+          <span className="text-[#18181B]">{FORK_DATA.title}</span>
+        </div>
+        <button
+          onClick={onBack}
+          className="text-[12px] text-[#7A7A74] hover:text-[#18181B] transition-colors"
+        >
+          關閉 ✕
+        </button>
       </div>
 
       {/* title block */}
@@ -186,11 +196,7 @@ function ForkTreeView() {
                 const y2 = j * ROW_H + ROW_H / 2;
                 const color = LANE_COLORS[c.lane] || "#9C9C95";
 
-                if (c.lane === COMMITS[j].lane) {
-                  // already drawn as mainline backdrop, skip
-                  return null;
-                }
-                // child (smaller y) → parent (larger y), curve
+                if (c.lane === COMMITS[j].lane) return null;
                 const d = `M ${x1} ${y1 + NODE_R} C ${x1} ${(y1 + y2) / 2 + 20}, ${x2} ${(y1 + y2) / 2 - 20}, ${x2} ${y2 - NODE_R}`;
                 return (
                   <path
