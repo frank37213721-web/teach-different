@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import ForkTreeView from "./ForkTree.jsx";
 import ImpactDashboard from "./Dashboard.jsx";
 import ComposeView from "./Compose.jsx";
@@ -167,9 +167,118 @@ const HELP_CHIPS = [
 ];
 
 /* ──────────────────────────────────────────────────────────────
+   Profile dropdown panel
+   ────────────────────────────────────────────────────────────── */
+function ProfilePanel({ session, onLogout, onClose }) {
+  const meta = session?.user?.user_metadata || {};
+  const [name, setName] = useState(meta.full_name || "");
+  const [school, setSchool] = useState(meta.school || "");
+  const [saving, setSaving] = useState(false);
+  const [saved, setSaved] = useState(false);
+
+  const avatarChar = (meta.full_name?.[0] || session?.user?.email?.[0] || "?").toUpperCase();
+  const avatarUrl = meta.avatar_url || null;
+
+  const handleSave = async () => {
+    setSaving(true);
+    await supabase.auth.updateUser({ data: { full_name: name, school } });
+    await supabase.from("profiles").upsert({
+      id: session.user.id,
+      full_name: name,
+      school,
+      updated_at: new Date().toISOString(),
+    });
+    setSaving(false);
+    setSaved(true);
+    setTimeout(() => setSaved(false), 2200);
+  };
+
+  return (
+    <div className="absolute right-0 top-[calc(100%+8px)] w-[272px] bg-[#FAFAF7] border border-[#ECECE6] rounded-xl shadow-[0_16px_48px_-16px_rgba(24,24,27,0.24)] z-50 overflow-hidden">
+      {/* Avatar + name + email */}
+      <div className="px-5 pt-5 pb-4 border-b border-[#F0F0EA]">
+        <div className="flex items-center gap-3">
+          <div className="w-10 h-10 rounded-full overflow-hidden ring-1 ring-[#ECECE6] flex-shrink-0">
+            {avatarUrl ? (
+              <img src={avatarUrl} className="w-full h-full object-cover" alt="" />
+            ) : (
+              <div className="w-full h-full flex items-center justify-center text-[14px] font-medium text-white"
+                style={{ background: "linear-gradient(135deg,#264653,#2A9D8F)" }}>
+                {avatarChar}
+              </div>
+            )}
+          </div>
+          <div className="min-w-0">
+            <div className="text-[14px] font-medium text-[#18181B] truncate">{name || "（未設定名稱）"}</div>
+            <div className="text-[11px] text-[#9C9C95] truncate mt-0.5">{session?.user?.email}</div>
+          </div>
+        </div>
+      </div>
+
+      {/* Editable fields */}
+      <div className="px-5 py-4 space-y-3">
+        <div>
+          <label className="block text-[10px] tracking-[0.14em] uppercase text-[#A8A8A2] font-mono mb-1.5">顯示名稱</label>
+          <input
+            value={name}
+            onChange={(e) => { setName(e.target.value); setSaved(false); }}
+            className="w-full h-8 px-3 text-[13px] text-[#18181B] bg-white border border-[#ECECE6] rounded-lg focus:outline-none focus:border-[#E89B3C]/70 transition-colors"
+            placeholder="你的名字"
+          />
+        </div>
+        <div>
+          <label className="block text-[10px] tracking-[0.14em] uppercase text-[#A8A8A2] font-mono mb-1.5">學校</label>
+          <input
+            value={school}
+            onChange={(e) => { setSchool(e.target.value); setSaved(false); }}
+            className="w-full h-8 px-3 text-[13px] text-[#18181B] bg-white border border-[#ECECE6] rounded-lg focus:outline-none focus:border-[#E89B3C]/70 transition-colors"
+            placeholder="學校名稱"
+          />
+        </div>
+        <button
+          onClick={handleSave}
+          disabled={saving}
+          className={`w-full h-8 rounded-lg text-[12.5px] font-medium transition-colors disabled:opacity-60 ${
+            saved
+              ? "bg-[#2A9D8F] text-white"
+              : "bg-[#18181B] text-white hover:bg-[#2A2A2E]"
+          }`}
+        >
+          {saving ? "儲存中⋯" : saved ? "已儲存 ✓" : "儲存變更"}
+        </button>
+      </div>
+
+      {/* Logout */}
+      <div className="px-5 pb-4 pt-1 border-t border-[#F0F0EA]">
+        <button
+          onClick={() => { onClose(); onLogout(); }}
+          className="w-full h-8 rounded-lg text-[12.5px] text-[#E76F51] hover:bg-[#E76F51]/[0.07] border border-[#F0F0EA] hover:border-[#E76F51]/25 transition-colors"
+        >
+          登出
+        </button>
+      </div>
+    </div>
+  );
+}
+
+/* ──────────────────────────────────────────────────────────────
    Top nav
    ────────────────────────────────────────────────────────────── */
 function TopNav({ view, setView, onCompose, session, onLogin, onSignup, onLogout }) {
+  const [showProfile, setShowProfile] = useState(false);
+  const profileWrapRef = useRef(null);
+
+  useEffect(() => {
+    if (!showProfile) return;
+    const handler = (e) => {
+      if (profileWrapRef.current && !profileWrapRef.current.contains(e.target)) {
+        setShowProfile(false);
+      }
+    };
+    document.addEventListener("mousedown", handler);
+    return () => document.removeEventListener("mousedown", handler);
+  }, [showProfile]);
+
   const avatarChar = session
     ? (session.user?.user_metadata?.full_name?.[0] || session.user?.email?.[0] || "?").toUpperCase()
     : null;
@@ -239,20 +348,30 @@ function TopNav({ view, setView, onCompose, session, onLogin, onSignup, onLogout
                 <PlusIcon size={13} strokeWidth={2}/>
                 分享點子
               </button>
-              <button
-                onClick={onLogout}
-                title="登出"
-                className="ml-1 w-8 h-8 rounded-full overflow-hidden ring-1 ring-[#ECECE6] hover:ring-[#D9D9D2] transition-all"
-              >
-                {avatarUrl ? (
-                  <img src={avatarUrl} className="w-full h-full object-cover" alt="" />
-                ) : (
-                  <div className="w-full h-full flex items-center justify-center text-[11px] font-medium text-white"
-                    style={{ background: "linear-gradient(135deg,#264653,#2A9D8F)" }}>
-                    {avatarChar}
-                  </div>
+              <div ref={profileWrapRef} className="relative ml-1">
+                <button
+                  onClick={() => setShowProfile((p) => !p)}
+                  className={`w-8 h-8 rounded-full overflow-hidden ring-1 transition-all ${
+                    showProfile ? "ring-[#E89B3C]" : "ring-[#ECECE6] hover:ring-[#D9D9D2]"
+                  }`}
+                >
+                  {avatarUrl ? (
+                    <img src={avatarUrl} className="w-full h-full object-cover" alt="" />
+                  ) : (
+                    <div className="w-full h-full flex items-center justify-center text-[11px] font-medium text-white"
+                      style={{ background: "linear-gradient(135deg,#264653,#2A9D8F)" }}>
+                      {avatarChar}
+                    </div>
+                  )}
+                </button>
+                {showProfile && (
+                  <ProfilePanel
+                    session={session}
+                    onLogout={onLogout}
+                    onClose={() => setShowProfile(false)}
+                  />
                 )}
-              </button>
+              </div>
             </>
           ) : (
             /* logged out */
