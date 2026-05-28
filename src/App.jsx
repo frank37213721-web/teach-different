@@ -299,22 +299,24 @@ function TopNav({ view, setView, onCompose, session, onLogin, onSignup, onLogout
 /* ──────────────────────────────────────────────────────────────
    Header block (greeting)
    ────────────────────────────────────────────────────────────── */
-function PageHeader({ ideasCount, filter, setFilter, profile }) {
-  const week = (() => {
-    const now = new Date();
-    const start = new Date(now.getFullYear(), 0, 1);
-    return Math.ceil(((now - start) / 86400000 + start.getDay() + 1) / 7);
-  })();
+function PageHeader({ ideasCount, filter, setFilter, profile, session }) {
+  const now = new Date();
+  const start = new Date(now.getFullYear(), 0, 1);
+  const week = Math.ceil(((now - start) / 86400000 + start.getDay() + 1) / 7);
+  const dateStr = `${now.getMonth() + 1}月${now.getDate()}日`;
 
   const greeting = (() => {
-    const h = new Date().getHours();
+    const h = now.getHours();
     if (h < 5)  return "深夜還在備課";
     if (h < 12) return "早安";
     if (h < 18) return "午安";
     return "晚安";
   })();
 
-  const displayName = profile?.full_name || "老師";
+  const isLoggedIn = session !== null && session !== undefined;
+  const salutation = (isLoggedIn && profile?.full_name)
+    ? `${profile.full_name}老師`
+    : "親愛的老師";
 
   const FILTERS = [
     ["all",        "全部點子"],
@@ -329,10 +331,10 @@ function PageHeader({ ideasCount, filter, setFilter, profile }) {
         <div>
           <div className="flex items-center gap-2 text-[12px] text-[#7A7A74] mb-3 font-mono">
             <span className="w-1 h-1 rounded-full bg-[#E76F51] animate-pulse"></span>
-            本週・第 {week} 週
+            本週・第 {week} 週・{dateStr}
           </div>
           <h1 className="text-[42px] leading-[1.05] tracking-tight text-[#18181B] font-medium">
-            {greeting}，{displayName}。<br/>
+            {greeting}，{salutation}。<br/>
             <span className="text-[#9C9C95]" style={{ fontFamily: "'Noto Serif TC',serif", fontStyle: "italic", fontWeight: 400 }}>
               {filter === "hot"
                 ? `本週最熱的 ${ideasCount} 個點子。`
@@ -706,7 +708,7 @@ function WallView({ onOpenTree, session }) {
 
   return (
     <>
-      <PageHeader ideasCount={ideas.length} filter={filter} setFilter={setFilter} profile={profile} />
+      <PageHeader ideasCount={ideas.length} filter={filter} setFilter={setFilter} profile={profile} session={session} />
       <main className="max-w-[1280px] mx-auto px-8 pb-32">
         {showEmpty ? (
           <div className="text-center py-24 text-[#9C9C95]">
