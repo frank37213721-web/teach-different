@@ -1,8 +1,10 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import ForkTreeView from "./ForkTree.jsx";
 import ImpactDashboard from "./Dashboard.jsx";
 import ComposeView from "./Compose.jsx";
 import DiscoverHub from "./Discover.jsx";
+import AuthModal from "./Register.jsx";
+import { supabase } from "./lib/supabase.js";
 import {
   FlameIcon,
   ForkIcon,
@@ -167,7 +169,12 @@ const HELP_CHIPS = [
 /* ──────────────────────────────────────────────────────────────
    Top nav
    ────────────────────────────────────────────────────────────── */
-function TopNav({ view, setView, onCompose }) {
+function TopNav({ view, setView, onCompose, session, onLogin, onSignup, onLogout }) {
+  const avatarChar = session
+    ? (session.user?.user_metadata?.full_name?.[0] || session.user?.email?.[0] || "?").toUpperCase()
+    : null;
+  const avatarUrl = session?.user?.user_metadata?.avatar_url || null;
+
   return (
     <header className="sticky top-0 z-30 backdrop-blur-xl bg-[rgba(250,250,247,0.72)] border-b border-[#ECECE6]">
       <div className="max-w-[1280px] mx-auto px-8 h-[60px] flex items-center justify-between">
@@ -214,23 +221,56 @@ function TopNav({ view, setView, onCompose }) {
               <CommandIcon size={9} strokeWidth={2}/> K
             </span>
           </button>
-          <button className="h-8 w-8 rounded-md flex items-center justify-center text-[#5C5C58] hover:bg-[#18181B]/[0.05] hover:text-[#18181B] transition-colors relative">
-            <BellIcon size={15} />
-            <span className="absolute top-1.5 right-1.5 w-1.5 h-1.5 rounded-full bg-[#E76F51]"></span>
-          </button>
-          <button
-            onClick={onCompose}
-            className="h-8 px-3 rounded-md bg-[#18181B] text-white text-[12.5px] font-medium hover:bg-[#2A2A2E] transition-colors flex items-center gap-1.5"
-          >
-            <PlusIcon size={13} strokeWidth={2}/>
-            分享點子
-          </button>
-          <button className="ml-1 w-8 h-8 rounded-full overflow-hidden ring-1 ring-[#ECECE6] hover:ring-[#D9D9D2] transition-all">
-            <div className="w-full h-full flex items-center justify-center text-[11px] font-medium text-white"
-              style={{ background: "linear-gradient(135deg,#264653,#2A9D8F)" }}>
-              昀
-            </div>
-          </button>
+
+          {session === undefined ? (
+            /* loading — ghost placeholder */
+            <div className="ml-1 w-8 h-8 rounded-full bg-[#ECECE6] animate-pulse" />
+          ) : session ? (
+            /* logged in */
+            <>
+              <button className="h-8 w-8 rounded-md flex items-center justify-center text-[#5C5C58] hover:bg-[#18181B]/[0.05] hover:text-[#18181B] transition-colors relative">
+                <BellIcon size={15} />
+                <span className="absolute top-1.5 right-1.5 w-1.5 h-1.5 rounded-full bg-[#E76F51]"></span>
+              </button>
+              <button
+                onClick={onCompose}
+                className="h-8 px-3 rounded-md bg-[#18181B] text-white text-[12.5px] font-medium hover:bg-[#2A2A2E] transition-colors flex items-center gap-1.5"
+              >
+                <PlusIcon size={13} strokeWidth={2}/>
+                分享點子
+              </button>
+              <button
+                onClick={onLogout}
+                title="登出"
+                className="ml-1 w-8 h-8 rounded-full overflow-hidden ring-1 ring-[#ECECE6] hover:ring-[#D9D9D2] transition-all"
+              >
+                {avatarUrl ? (
+                  <img src={avatarUrl} className="w-full h-full object-cover" alt="" />
+                ) : (
+                  <div className="w-full h-full flex items-center justify-center text-[11px] font-medium text-white"
+                    style={{ background: "linear-gradient(135deg,#264653,#2A9D8F)" }}>
+                    {avatarChar}
+                  </div>
+                )}
+              </button>
+            </>
+          ) : (
+            /* logged out */
+            <>
+              <button
+                onClick={onLogin}
+                className="h-8 px-3 rounded-md text-[12.5px] text-[#5C5C58] hover:text-[#18181B] border border-[#ECECE6] hover:border-[#D9D9D2] transition-colors"
+              >
+                登入
+              </button>
+              <button
+                onClick={onSignup}
+                className="h-8 px-3.5 rounded-md bg-[#E89B3C] text-white text-[12.5px] font-medium hover:bg-[#F2AC55] transition-colors"
+              >
+                免費註冊
+              </button>
+            </>
+          )}
         </div>
       </div>
     </header>
@@ -560,18 +600,41 @@ function WallView({ onOpenTree }) {
 function App() {
   const [view, setView] = useState("wall");
   const [detailIdeaId, setDetailIdeaId] = useState(null);
+  const [session, setSession] = useState(undefined); // undefined=loading, null=logged out
+  const [authMode, setAuthMode] = useState(null); // null | "login" | "signup"
+
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data: { session } }) => setSession(session ?? null));
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_e, s) => setSession(s ?? null));
+    return () => subscription.unsubscribe();
+  }, []);
 
   const openDetail = (id) => { setDetailIdeaId(id); setView("detail"); };
   const closeDetail = () => { setDetailIdeaId(null); setView("wall"); };
 
   return (
     <div className="min-h-screen text-[#18181B]">
-      <TopNav view={view} setView={setView} onCompose={() => setView("compose")} />
+      <TopNav
+        view={view}
+        setView={setView}
+        onCompose={() => setView("compose")}
+        session={session}
+        onLogin={() => setAuthMode("login")}
+        onSignup={() => setAuthMode("signup")}
+        onLogout={() => supabase.auth.signOut()}
+      />
       {view === "wall" && <WallView onOpenTree={openDetail} />}
       {view === "detail" && <ForkTreeView ideaId={detailIdeaId} onBack={closeDetail} />}
       {view === "compose" && <ComposeView onCancel={() => setView("wall")} onPublished={() => setView("wall")} />}
       {view === "impact" && <ImpactDashboard />}
       {view === "discover" && <DiscoverHub />}
+      {authMode && (
+        <AuthModal
+          mode={authMode}
+          onClose={() => setAuthMode(null)}
+          onAuthSuccess={() => setAuthMode(null)}
+        />
+      )}
     </div>
   );
 }
