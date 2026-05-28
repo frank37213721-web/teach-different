@@ -25,136 +25,16 @@ import {
    Sample data — teaching ideas wall
    ────────────────────────────────────────────────────────────── */
 const IDEAS = [
-  {
-    id: "i01",
-    subject: "國語",
-    grade: "五年級",
-    title: "用便利貼演化一篇作文",
-    excerpt:
-      "讓孩子先在牆上寫下一句話，下一位同學再用便利貼蓋掉並替換它。整堂課就是一篇文章的「修訂歷史」。",
-    author: { name: "林宛庭", school: "民和國小", color: "linear-gradient(135deg,#E9C46A,#E76F51)" },
-    forkedFrom: { name: "陳秀蓮", commit: "f3a91c" },
-    lights: 142,
-    practices: 38,
-    daysAgo: 3,
-  },
-  {
-    id: "i02",
-    subject: "數學",
-    grade: "六年級",
-    title: "走廊地磚變身座標平面",
-    excerpt:
-      "把走廊當成一個 12×6 的卡式座標系。學生輪流當「點」，老師喊出座標，被點到的人要快速跑到位置。",
-    author: { name: "黃子翔", school: "復興國小", color: "linear-gradient(135deg,#2A9D8F,#264653)" },
-    forkedFrom: null,
-    lights: 87,
-    practices: 22,
-    daysAgo: 5,
-  },
-  {
-    id: "i03",
-    subject: "自然",
-    grade: "三年級",
-    title: "下雨天的微氣象觀察",
-    excerpt:
-      "下雨那天臨時改成「雨滴觀察會」。一人發一張黑色紙片，伸出走廊，回來用放大鏡計算每平方公分的雨滴痕跡。",
-    author: { name: "蔡佳穎", school: "明德國小", color: "linear-gradient(135deg,#A8DADC,#457B9D)" },
-    forkedFrom: { name: "蔡佳穎", commit: "92cf04" },
-    lights: 211,
-    practices: 64,
-    daysAgo: 1,
-  },
-  {
-    id: "i04",
-    subject: "社會",
-    grade: "五年級",
-    title: "讓學生當主播報歷史",
-    excerpt:
-      "把朝代興替包裝成晚間新聞。學生分組挑一個事件，準備 90 秒口播稿，用手機錄一段「歷史晚間新聞」。",
-    author: { name: "周明哲", school: "南屏國中", color: "linear-gradient(135deg,#F4A261,#E76F51)" },
-    forkedFrom: { name: "林宛庭", commit: "a01e7d" },
-    lights: 96,
-    practices: 19,
-    daysAgo: 8,
-  },
-  {
-    id: "i05",
-    subject: "音樂",
-    grade: "四年級",
-    title: "節奏就是程式語言",
-    excerpt:
-      "用「ㄉㄤ／ㄎㄎ／休止」三個字寫一段 16 拍節奏譜，再讓另一組學生用身體動作「解析執行」。",
-    author: { name: "葉若萱", school: "蓬萊國小", color: "linear-gradient(135deg,#BDB2FF,#FFC6FF)" },
-    forkedFrom: null,
-    lights: 54,
-    practices: 11,
-    daysAgo: 12,
-  },
-  {
-    id: "i06",
-    subject: "綜合",
-    grade: "六年級",
-    title: "畢業前的「校園小事典」",
-    excerpt:
-      "請每位學生提名一件「只有我們這屆才懂」的小事，匿名投票後做成 A4 風格的辭典頁。送給下一屆。",
-    author: { name: "鄭懷恩", school: "光復國小", color: "linear-gradient(135deg,#264653,#2A9D8F)" },
-    forkedFrom: { name: "黃子翔", commit: "c47b21" },
-    lights: 318,
-    practices: 102,
-    daysAgo: 14,
-  },
-  {
-    id: "i07",
-    subject: "物理",
-    grade: "高中二年級",
-    title: "用果凍捏出 PN 接面",
-    excerpt:
-      "兩色果凍分別代表 N 型與 P 型半導體，學生用手指把「多數載子」往中間推，直到推不動的那條線，就是空乏區。比投影片直觀十倍。",
-    author: { name: "吳承翰", school: "建國高中", color: "linear-gradient(135deg,#0077B6,#023E8A)" },
-    forkedFrom: null,
-    lights: 74,
-    practices: 21,
-    daysAgo: 2,
-  },
-  {
-    id: "i08",
-    subject: "物理",
-    grade: "高中一年級",
-    title: "LED 光譜反推禁帶寬度",
-    excerpt:
-      "每組拿一片光柵片對著不同顏色 LED 觀察光譜，記錄峰值波長，換算光子能量。最後比對理論禁帶寬度，誤差在 5% 內的組別有小獎勵。",
-    author: { name: "陳柏宇", school: "師大附中", color: "linear-gradient(135deg,#F77F00,#D62828)" },
-    forkedFrom: { name: "吳承翰", commit: "e81d3f" },
-    lights: 112,
-    practices: 33,
-    daysAgo: 6,
-  },
-  {
-    id: "i09",
-    subject: "化學",
-    grade: "高中一年級",
-    title: "從沙子到晶片：矽的鍵結旅行",
-    excerpt:
-      "帶一包海沙進教室。從 SiO₂ 的共價鍵出發，一步步走到純矽、摻雜、再到 N 型與 P 型。最後讓學生計算：這包沙能做幾顆晶片？",
-    author: { name: "林雅涵", school: "北一女中", color: "linear-gradient(135deg,#40916C,#1B4332)" },
-    forkedFrom: null,
-    lights: 89,
-    practices: 28,
-    daysAgo: 9,
-  },
-  {
-    id: "i10",
-    subject: "自然科學",
-    grade: "高中三年級",
-    title: "製程節點縮放：人體比例尺",
-    excerpt:
-      "把一根頭髮（約 70µm）投影在黑板上，讓學生用尺算出 7nm 節點在上面有多細。再算一顆 M1 晶片裡 160 億顆電晶體排成一排有多長。數字讓人起雞皮疙瘩。",
-    author: { name: "張智翔", school: "中山女高", color: "linear-gradient(135deg,#7B2D8B,#4A0E6E)" },
-    forkedFrom: { name: "林雅涵", commit: "b52a9c" },
-    lights: 156,
-    practices: 47,
-    daysAgo: 4,
-  },
+  { id:"i01", subject:"國語",    grade:"五年級",    educationLevel:"國小", title:"用便利貼演化一篇作文",        excerpt:"讓孩子先在牆上寫下一句話，下一位同學再用便利貼蓋掉並替換它。整堂課就是一篇文章的「修訂歷史」。",         author:{ name:"林宛庭", school:"民和國小", color:"linear-gradient(135deg,#E9C46A,#E76F51)" }, forkedFrom:{ name:"陳秀蓮", commit:"f3a91c" }, lights:142, practices:38, weekLights:28, daysAgo:3,  tags:["#寫作教學","#協作學習","#修訂歷史"] },
+  { id:"i02", subject:"數學",    grade:"六年級",    educationLevel:"國小", title:"走廊地磚變身座標平面",        excerpt:"把走廊當成一個 12×6 的卡式座標系。學生輪流當「點」，老師喊出座標，被點到的人要快速跑到位置。",             author:{ name:"黃子翔", school:"復興國小", color:"linear-gradient(135deg,#2A9D8F,#264653)" }, forkedFrom:null,                                lights:87,  practices:22, weekLights:12, daysAgo:5,  tags:["#數學遊戲","#座標系","#戶外教學"] },
+  { id:"i03", subject:"自然",    grade:"三年級",    educationLevel:"國小", title:"下雨天的微氣象觀察",          excerpt:"下雨那天臨時改成「雨滴觀察會」。一人發一張黑色紙片，伸出走廊，回來用放大鏡計算每平方公分的雨滴痕跡。",       author:{ name:"蔡佳穎", school:"明德國小", color:"linear-gradient(135deg,#A8DADC,#457B9D)" }, forkedFrom:{ name:"蔡佳穎", commit:"92cf04" }, lights:211, practices:64, weekLights:45, daysAgo:1,  tags:["#自然觀察","#氣象教學","#戶外學習"] },
+  { id:"i04", subject:"社會",    grade:"五年級",    educationLevel:"國小", title:"讓學生當主播報歷史",          excerpt:"把朝代興替包裝成晚間新聞。學生分組挑一個事件，準備 90 秒口播稿，用手機錄一段「歷史晚間新聞」。",           author:{ name:"周明哲", school:"南屏國中", color:"linear-gradient(135deg,#F4A261,#E76F51)" }, forkedFrom:{ name:"林宛庭", commit:"a01e7d" }, lights:96,  practices:19, weekLights:8,  daysAgo:8,  tags:["#歷史教學","#口語表達","#創意教學"] },
+  { id:"i05", subject:"音樂",    grade:"四年級",    educationLevel:"國小", title:"節奏就是程式語言",            excerpt:"用「ㄉㄤ／ㄎㄎ／休止」三個字寫一段 16 拍節奏譜，再讓另一組學生用身體動作「解析執行」。",                 author:{ name:"葉若萱", school:"蓬萊國小", color:"linear-gradient(135deg,#BDB2FF,#FFC6FF)" }, forkedFrom:null,                                lights:54,  practices:11, weekLights:5,  daysAgo:12, tags:["#音樂教育","#節奏訓練","#跨域學習"] },
+  { id:"i06", subject:"綜合",    grade:"六年級",    educationLevel:"國小", title:"畢業前的「校園小事典」",      excerpt:"請每位學生提名一件「只有我們這屆才懂」的小事，匿名投票後做成 A4 風格的辭典頁。送給下一屆。",             author:{ name:"鄭懷恩", school:"光復國小", color:"linear-gradient(135deg,#264653,#2A9D8F)" }, forkedFrom:{ name:"黃子翔", commit:"c47b21" }, lights:318, practices:102,weekLights:52, daysAgo:14, tags:["#畢業活動","#班級凝聚","#創意製作"] },
+  { id:"i07", subject:"物理",    grade:"高中二年級", educationLevel:"高中", title:"用果凍捏出 PN 接面",          excerpt:"兩色果凍分別代表 N 型與 P 型半導體，學生用手指把「多數載子」往中間推，直到推不動的那條線，就是空乏區。比投影片直觀十倍。", author:{ name:"吳承翰", school:"建國高中", color:"linear-gradient(135deg,#0077B6,#023E8A)" }, forkedFrom:null,                                lights:74,  practices:21, weekLights:18, daysAgo:2,  tags:["#半導體","#PN接面","#動手實驗"] },
+  { id:"i08", subject:"物理",    grade:"高中一年級", educationLevel:"高中", title:"LED 光譜反推禁帶寬度",         excerpt:"每組拿一片光柵片對著不同顏色 LED 觀察光譜，記錄峰值波長，換算光子能量。最後比對理論禁帶寬度，誤差在 5% 內的組別有小獎勵。",author:{ name:"陳柏宇", school:"師大附中", color:"linear-gradient(135deg,#F77F00,#D62828)" }, forkedFrom:{ name:"吳承翰", commit:"e81d3f" }, lights:112, practices:33, weekLights:22, daysAgo:6,  tags:["#光學","#半導體","#實驗教學"] },
+  { id:"i09", subject:"化學",    grade:"高中一年級", educationLevel:"高中", title:"從沙子到晶片：矽的鍵結旅行",  excerpt:"帶一包海沙進教室。從 SiO₂ 的共價鍵出發，一步步走到純矽、摻雜、再到 N 型與 P 型。最後讓學生計算：這包沙能做幾顆晶片？",   author:{ name:"林雅涵", school:"北一女中", color:"linear-gradient(135deg,#40916C,#1B4332)" }, forkedFrom:null,                                lights:89,  practices:28, weekLights:15, daysAgo:9,  tags:["#化學鍵結","#半導體","#跨域連結"] },
+  { id:"i10", subject:"自然科學", grade:"高中三年級", educationLevel:"高中", title:"製程節點縮放：人體比例尺",    excerpt:"把一根頭髮（約 70µm）投影在黑板上，讓學生用尺算出 7nm 節點在上面有多細。再算一顆 M1 晶片裡 160 億顆電晶體排成一排有多長。數字讓人起雞皮疙瘩。",author:{ name:"張智翔", school:"中山女高", color:"linear-gradient(135deg,#7B2D8B,#4A0E6E)" }, forkedFrom:{ name:"林雅涵", commit:"b52a9c" }, lights:156, practices:47, weekLights:38, daysAgo:4,  tags:["#製程節點","#半導體","#數感教育"] },
 ];
 
 const HELP_CHIPS = [
@@ -165,6 +45,26 @@ const HELP_CHIPS = [
   "讓我重新愛上教書",
   "解了我卡住的單元",
 ];
+
+/* Supabase row → component shape */
+function transformIdea(row) {
+  const ms = Date.now() - new Date(row.published_at).getTime();
+  return {
+    id: row.id,
+    subject: row.subject,
+    grade: row.grade,
+    educationLevel: row.education_level,
+    title: row.title,
+    excerpt: row.excerpt,
+    author: { name: row.author_name, school: row.author_school, color: row.author_color },
+    forkedFrom: row.forked_from_name ? { name: row.forked_from_name, commit: row.forked_from_commit } : null,
+    lights: row.lights,
+    practices: row.practices,
+    weekLights: row.week_lights,
+    tags: row.tags || [],
+    daysAgo: Math.max(0, Math.floor(ms / 86400000)),
+  };
+}
 
 /* ──────────────────────────────────────────────────────────────
    Profile dropdown panel
@@ -399,19 +299,48 @@ function TopNav({ view, setView, onCompose, session, onLogin, onSignup, onLogout
 /* ──────────────────────────────────────────────────────────────
    Header block (greeting)
    ────────────────────────────────────────────────────────────── */
-function PageHeader({ ideasCount }) {
+function PageHeader({ ideasCount, filter, setFilter, profile }) {
+  const week = (() => {
+    const now = new Date();
+    const start = new Date(now.getFullYear(), 0, 1);
+    return Math.ceil(((now - start) / 86400000 + start.getDay() + 1) / 7);
+  })();
+
+  const greeting = (() => {
+    const h = new Date().getHours();
+    if (h < 5)  return "深夜還在備課";
+    if (h < 12) return "早安";
+    if (h < 18) return "午安";
+    return "晚安";
+  })();
+
+  const displayName = profile?.full_name || "老師";
+
+  const FILTERS = [
+    ["all",        "全部點子"],
+    ["subscribed", "我關注的科目"],
+    ["hot",        "本週熱燈"],
+    ["unpracticed","尚未被實踐"],
+  ];
+
   return (
     <section className="max-w-[1280px] mx-auto px-8 pt-14 pb-10">
       <div className="flex items-end justify-between">
         <div>
           <div className="flex items-center gap-2 text-[12px] text-[#7A7A74] mb-3 font-mono">
             <span className="w-1 h-1 rounded-full bg-[#E76F51] animate-pulse"></span>
-            本週・第 38 週
+            本週・第 {week} 週
           </div>
           <h1 className="text-[42px] leading-[1.05] tracking-tight text-[#18181B] font-medium">
-            晚安，昀真老師。<br/>
+            {greeting}，{displayName}。<br/>
             <span className="text-[#9C9C95]" style={{ fontFamily: "'Noto Serif TC',serif", fontStyle: "italic", fontWeight: 400 }}>
-              今晚有 {ideasCount} 個來自其他教室的點子。
+              {filter === "hot"
+                ? `本週最熱的 ${ideasCount} 個點子。`
+                : filter === "subscribed"
+                  ? `你關注科目的 ${ideasCount} 個點子。`
+                  : filter === "unpracticed"
+                    ? `還沒人試過的 ${ideasCount} 個點子。`
+                    : `共有 ${ideasCount} 個來自其他教室的點子。`}
             </span>
           </h1>
         </div>
@@ -427,20 +356,31 @@ function PageHeader({ ideasCount }) {
       {/* filter bar */}
       <div className="mt-9 flex items-center justify-between border-b border-[#ECECE6] pb-3">
         <div className="flex items-center gap-1">
-          {["全部點子", "我關注的科目", "本週熱燈", "尚未被實踐"].map((f, i) => (
+          {FILTERS.map(([k, label]) => (
             <button
-              key={f}
+              key={k}
+              onClick={() => setFilter(k)}
               className={`px-3 h-8 text-[13px] rounded-md transition-colors ${
-                i === 0 ? "text-[#18181B] bg-[#18181B]/[0.05]" : "text-[#7A7A74] hover:text-[#18181B]"
+                filter === k
+                  ? "text-[#18181B] bg-[#18181B]/[0.05] font-medium"
+                  : "text-[#7A7A74] hover:text-[#18181B]"
               }`}
             >
-              {f}
+              {label}
+              {k === "hot" && filter === "hot" && (
+                <span className="ml-1.5 inline-block w-1.5 h-1.5 rounded-full bg-[#E89B3C] align-middle -mt-0.5"></span>
+              )}
             </button>
           ))}
         </div>
         <div className="flex items-center gap-2 text-[12px] text-[#7A7A74]">
           <span>排序</span>
-          <button className="text-[#18181B] hover:underline underline-offset-2">最近實踐</button>
+          <button
+            onClick={() => setFilter("hot")}
+            className={`hover:underline underline-offset-2 transition-colors ${filter === "hot" ? "text-[#E89B3C]" : "text-[#18181B]"}`}
+          >
+            本週熱燈
+          </button>
         </div>
       </div>
     </section>
@@ -459,7 +399,7 @@ function Stat({ label, value }) {
 /* ──────────────────────────────────────────────────────────────
    Card — front + flipped back (envelope)
    ────────────────────────────────────────────────────────────── */
-function IdeaCard({ idea, flipped, onFlip, onClose, justLit, onOpenTree }) {
+function IdeaCard({ idea, flipped, onFlip, onClose, justLit, onOpenTree, onSubscribeSubject, isSubjectSubscribed }) {
   return (
     <div className="card-perspective h-[420px]">
       <div
@@ -476,12 +416,23 @@ function IdeaCard({ idea, flipped, onFlip, onClose, justLit, onOpenTree }) {
           style={{ backfaceVisibility: "hidden" }}
         >
           <div className="absolute inset-0 flex flex-col p-6">
-            {/* tags + time */}
+            {/* subject badge + grade + time */}
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-1.5">
-                <span className="px-2 py-0.5 rounded text-[11px] font-medium text-[#18181B] bg-[#F2F2EC] border border-[#ECECE6]">
+                <button
+                  onClick={(e) => { e.stopPropagation(); onSubscribeSubject && onSubscribeSubject(idea.subject); }}
+                  title={onSubscribeSubject ? (isSubjectSubscribed ? "已訂閱此科目" : "點擊訂閱此科目") : undefined}
+                  className={`px-2 py-0.5 rounded text-[11px] font-medium border transition-all ${
+                    isSubjectSubscribed
+                      ? "text-[#2A9D8F] bg-[#2A9D8F]/[0.08] border-[#2A9D8F]/30 cursor-default"
+                      : onSubscribeSubject
+                        ? "text-[#18181B] bg-[#F2F2EC] border-[#ECECE6] hover:text-[#2A9D8F] hover:bg-[#E8F5F3] hover:border-[#2A9D8F]/30"
+                        : "text-[#18181B] bg-[#F2F2EC] border-[#ECECE6]"
+                  }`}
+                >
+                  {isSubjectSubscribed && <CheckIcon size={9} strokeWidth={2.5} className="inline -mt-0.5 mr-0.5"/>}
                   {idea.subject}
-                </span>
+                </button>
                 <span className="px-2 py-0.5 rounded text-[11px] text-[#7A7A74] border border-[#ECECE6]">
                   {idea.grade}
                 </span>
@@ -495,15 +446,26 @@ function IdeaCard({ idea, flipped, onFlip, onClose, justLit, onOpenTree }) {
             {/* title */}
             <h3
               onClick={(e) => { e.stopPropagation(); onOpenTree && onOpenTree(); }}
-              className="mt-5 text-[20px] leading-[1.3] font-medium text-[#18181B] tracking-tight cursor-pointer hover:underline underline-offset-2 decoration-[#D9D9D2]"
+              className="mt-4 text-[19px] leading-[1.3] font-medium text-[#18181B] tracking-tight cursor-pointer hover:underline underline-offset-2 decoration-[#D9D9D2]"
             >
               {idea.title}
             </h3>
 
             {/* excerpt */}
-            <p className="mt-3 text-[13.5px] leading-[1.65] text-[#5C5C58] line-clamp-4">
+            <p className="mt-2.5 text-[13px] leading-[1.65] text-[#5C5C58] line-clamp-3">
               {idea.excerpt}
             </p>
+
+            {/* hashtags */}
+            {idea.tags?.length > 0 && (
+              <div className="mt-2 flex flex-wrap gap-1">
+                {idea.tags.slice(0, 3).map(tag => (
+                  <span key={tag} className="px-1.5 py-px text-[10px] text-[#9C9C95] font-mono bg-[#F5F5F0] rounded">
+                    {tag}
+                  </span>
+                ))}
+              </div>
+            )}
 
             <div className="flex-1"></div>
 
@@ -680,36 +642,98 @@ function ChipSet() {
 /* ──────────────────────────────────────────────────────────────
    App
    ────────────────────────────────────────────────────────────── */
-function WallView({ onOpenTree }) {
+function WallView({ onOpenTree, session }) {
+  const [ideas, setIdeas] = useState(IDEAS);
+  const [profile, setProfile] = useState(null);
+  const [filter, setFilter] = useState("all");
   const [flippedId, setFlippedId] = useState(null);
   const [litIds, setLitIds] = useState(new Set());
+
+  /* 1. Fetch profile */
+  useEffect(() => {
+    if (!session?.user?.id) return setProfile(null);
+    supabase.from("profiles").select("id,full_name,subjects,levels")
+      .eq("id", session.user.id).single()
+      .then(({ data }) => { if (data) setProfile(data); });
+  }, [session]);
+
+  /* 2. Fetch ideas from Supabase */
+  useEffect(() => {
+    let active = true;
+    async function load() {
+      let q = supabase.from("ideas").select("*");
+      if (filter === "hot") {
+        q = q.order("week_lights", { ascending: false });
+      } else if (filter === "unpracticed") {
+        q = q.eq("practices", 0).order("published_at", { ascending: false });
+      } else if (filter === "subscribed" && profile?.subjects?.length > 0) {
+        q = q.in("subject", profile.subjects).order("published_at", { ascending: false });
+      } else {
+        q = q.order("published_at", { ascending: false });
+      }
+      const { data } = await q;
+      if (!active || !data?.length) return;
+      let list = data.map(transformIdea);
+      /* Education level prioritization */
+      if (filter !== "hot" && profile?.levels?.length > 0) {
+        const pref = list.filter(i => profile.levels.includes(i.educationLevel));
+        const rest = list.filter(i => !profile.levels.includes(i.educationLevel));
+        list = [...pref, ...rest];
+      }
+      setIdeas(list);
+    }
+    load();
+    return () => { active = false; };
+  }, [filter, profile]);
+
+  /* 3. Subject subscription */
+  const subscribeSubject = async (subject) => {
+    if (!session?.user?.id) return;
+    const current = profile?.subjects || [];
+    if (current.includes(subject)) return;
+    const updated = [...current, subject];
+    await supabase.from("profiles").upsert({ id: session.user.id, subjects: updated });
+    setProfile(p => ({ ...(p || {}), subjects: updated }));
+  };
 
   const close = (id) => {
     setLitIds((s) => new Set(s).add(id));
     setFlippedId(null);
   };
 
+  const subscribedSubjects = profile?.subjects || [];
+  const showEmpty = filter === "subscribed" && subscribedSubjects.length === 0;
+
   return (
     <>
-      <PageHeader ideasCount={IDEAS.length} />
+      <PageHeader ideasCount={ideas.length} filter={filter} setFilter={setFilter} profile={profile} />
       <main className="max-w-[1280px] mx-auto px-8 pb-32">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-          {IDEAS.map((idea) => (
-            <IdeaCard
-              key={idea.id}
-              idea={idea}
-              flipped={flippedId === idea.id}
-              justLit={litIds.has(idea.id)}
-              onFlip={() => setFlippedId(idea.id)}
-              onClose={() => close(idea.id)}
-              onOpenTree={() => onOpenTree(idea.id)}
-            />
-          ))}
-        </div>
+        {showEmpty ? (
+          <div className="text-center py-24 text-[#9C9C95]">
+            <p className="text-[15px]">還沒有訂閱任何科目</p>
+            <p className="mt-1.5 text-[12.5px]">點擊點子卡片上的科目標籤即可訂閱，篩選出你最想看的內容</p>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+            {ideas.map((idea) => (
+              <IdeaCard
+                key={idea.id}
+                idea={idea}
+                flipped={flippedId === idea.id}
+                justLit={litIds.has(idea.id)}
+                onFlip={() => setFlippedId(idea.id)}
+                onClose={() => close(idea.id)}
+                onOpenTree={() => onOpenTree(idea.id)}
+                onSubscribeSubject={session ? subscribeSubject : null}
+                isSubjectSubscribed={subscribedSubjects.includes(idea.subject)}
+              />
+            ))}
+          </div>
+        )}
 
         <div className="mt-16 flex items-center justify-center gap-2 text-[12px] text-[#9C9C95] font-mono">
           <SparkleIcon size={12}/>
-          <span>第 38 週 · 共 142 位老師線上 · 今晚分享了 6 個點子</span>
+          <span>共 {ideas.length} 個點子</span>
         </div>
       </main>
     </>
@@ -742,7 +766,7 @@ function App() {
         onSignup={() => setAuthMode("signup")}
         onLogout={() => supabase.auth.signOut()}
       />
-      {view === "wall" && <WallView onOpenTree={openDetail} />}
+      {view === "wall" && <WallView onOpenTree={openDetail} session={session} />}
       {view === "detail" && <ForkTreeView ideaId={detailIdeaId} onBack={closeDetail} />}
       {view === "compose" && <ComposeView onCancel={() => setView("wall")} onPublished={() => setView("wall")} />}
       {view === "impact" && <ImpactDashboard />}
